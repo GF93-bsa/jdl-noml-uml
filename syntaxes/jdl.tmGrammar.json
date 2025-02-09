@@ -1,0 +1,72 @@
+{
+  "scopeName": "scope.jdl",
+  "patterns": [{ "include": "#expression" }],
+  "repository": {
+    "expression": {
+      "patterns": [
+        { "include": "#control" },
+        { "include": "#relationship" },
+        { "include": "#type" },
+        { "include": "#constant" },
+        { "include": "#entity" },
+        { "include": "#function" },
+        { "include": "#comment-line" },
+        { "include": "#comment-bloc" },
+        { "include": "#quoted" },
+        { "include": "#constant-numeric" },
+        { "include": "#validator" },
+        { "include": "#punctuation" }
+      ]
+    },
+    "control": {
+      "match": "\\b(entity|relationship|enum|dto|pagination|service|microservice|search|angularSuffix|filter|clientRootFolder|with|except)\\b",
+      "name": "keyword.control"
+    },
+    "relationship": {
+      "match": "\\b(OneToOne|OneToMany|ManyToOne|ManyToMany)\\b",
+      "name": "keyword.relationship"
+    },
+    "type": {
+      "match": "\\b(String|Instant|Integer|LocalDate|ZonedDateTime|Duration|BigDecimal|UUID)\\b",
+      "name": "storage.type"
+    },
+    "constant": {
+      "match": "\\b(true|false|null)\\b",
+      "name": "constant.language"
+    },
+    "entity": {
+      "match": "\\b([A-Z][a-zA-Z0-9_]*[a-z0-9_]+)\\b",
+      "name": "entity.name.type"
+    },
+    "function": {
+      "match": "\\b(min|max|minlength|maxlength)\\s*(?=\\()",
+      "name": "entity.name.function"
+    },
+    "validator": {
+      "match": "\\brequired",
+      "name": "entity.name.function"
+    },
+    "comment-line": {
+      "begin": "//",
+      "end": "$",
+      "name": "comment.line"
+    },
+    "comment-bloc": {
+      "begin": "/\\*",
+      "end": "\\*/",
+      "name": "comment.block"
+    },
+    "quoted": {
+      "match": "'([^'\\\\]|\\\\.)*'",
+      "name": "string.quoted.single"
+    },
+    "constant-numeric": {
+      "match": "-?\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b",
+      "name": "constant.numeric"
+    },
+    "punctuation": {
+      "match": "[(){}\\[\\]]",
+      "name": "punctuation.brackets"
+    }
+  }
+}
