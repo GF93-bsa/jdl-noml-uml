@@ -54,12 +54,12 @@
     "grammars": [
       {
         "language": "nomnoml",
-        "scopeName": "scope.nomnoml",
+        "scopeName": "source.nomnoml",
         "path": "./syntaxes/nomnoml.tmGrammar.json"
       },
       {
         "language": "jdl",
-        "scopeName": "scope.jdl",
+        "scopeName": "source.jdl",
         "path": "./syntaxes/jdl.tmGrammar.json"
       }
     ]

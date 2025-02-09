@@ -1,72 +1,152 @@
 {
-  "scopeName": "scope.jdl",
-  "patterns": [{ "include": "#expression" }],
+  "name": "JDL",
+  "scopeName": "source.jdl",
+  "fileTypes": ["jdl"],
+  "patterns": [
+    { "include": "#block" },
+    { "include": "#identifier" },
+    { "include": "#relationship" },
+    { "include": "#operator" },
+    { "include": "#comment-line" },
+    { "include": "#comment-bloc" },
+    { "include": "#entity" },
+    { "include": "#app-options" },
+    { "include": "#entity-options" },
+    { "include": "#use-options" }
+  ],
   "repository": {
-    "expression": {
-      "patterns": [
-        { "include": "#control" },
-        { "include": "#relationship" },
-        { "include": "#type" },
-        { "include": "#constant" },
-        { "include": "#entity" },
-        { "include": "#function" },
-        { "include": "#comment-line" },
-        { "include": "#comment-bloc" },
-        { "include": "#quoted" },
-        { "include": "#constant-numeric" },
-        { "include": "#validator" },
-        { "include": "#punctuation" }
-      ]
-    },
-    "control": {
-      "match": "\\b(entity|relationship|enum|dto|pagination|service|microservice|search|angularSuffix|filter|clientRootFolder|with|except)\\b",
-      "name": "keyword.control"
+    "identifier": {
+      "match": "\\b(entity|relationship|enum|application|config|entities)\\b",
+      "name": "keyword.control.jdl"
     },
     "relationship": {
       "match": "\\b(OneToOne|OneToMany|ManyToOne|ManyToMany)\\b",
-      "name": "keyword.relationship"
+      "name": "keyword.relationship.jdl"
     },
     "type": {
-      "match": "\\b(String|Instant|Integer|LocalDate|ZonedDateTime|Duration|BigDecimal|UUID)\\b",
-      "name": "storage.type"
-    },
-    "constant": {
-      "match": "\\b(true|false|null)\\b",
-      "name": "constant.language"
+      "match": "\\b(String|Integer|Long|BigDecimal|Float|Double|Enum|Boolean|LocalDate|ZonedDateTime|Instant|Duration|LocalTime|UUID|Blob|AnyBlob|ImageBlob|TextBlob)\\b",
+      "name": "storage.type.jdl"
     },
     "entity": {
       "match": "\\b([A-Z][a-zA-Z0-9_]*[a-z0-9_]+)\\b",
-      "name": "entity.name.type"
+      "name": "entity.name.type.jdl"
+    },
+    "operator": {
+      "match": "\\b(use|for|to|with|except|\\*)\\b",
+      "name": "keyword.reserved.jdl"
     },
     "function": {
-      "match": "\\b(min|max|minlength|maxlength)\\s*(?=\\()",
-      "name": "entity.name.function"
+      "match": "\\b(min|max|minlength|maxlength|pattern)\\s*(?=\\()",
+      "name": "entity.name.function.jdl"
     },
     "validator": {
       "match": "\\brequired",
-      "name": "entity.name.function"
+      "name": "entity.name.function.jdl"
     },
     "comment-line": {
       "begin": "//",
       "end": "$",
-      "name": "comment.line"
+      "name": "comment.line.jdl"
     },
     "comment-bloc": {
       "begin": "/\\*",
       "end": "\\*/",
-      "name": "comment.block"
+      "name": "comment.block.jdl"
     },
-    "quoted": {
-      "match": "'([^'\\\\]|\\\\.)*'",
-      "name": "string.quoted.single"
+    "string": {
+      "patterns": [
+        {
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.jdl"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.jdl"
+            }
+          },
+          "name": "string.quoted.double.jdl",
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.jdl"
+            }
+          ]
+        },
+        {
+          "begin": "'",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.jdl"
+            }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.jdl"
+            }
+          },
+          "name": "string.quoted.single.jdl",
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.jdl"
+            }
+          ]
+        }
+      ]
+    },
+    "constant": {
+      "match": "\\b(true|false|null)\\b",
+      "name": "constant.language.jdl"
     },
     "constant-numeric": {
       "match": "-?\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b",
-      "name": "constant.numeric"
+      "name": "constant.numeric.jdl"
     },
-    "punctuation": {
-      "match": "[(){}\\[\\]]",
-      "name": "punctuation.brackets"
+    "app-options": {
+      "match": "\\b(applicationType|authenticationType|baseName|blueprints|buildTool|cacheProvider|clientFramework|clientPackageManager|clientTheme|clientThemeVariant|databaseType|devDatabaseType|dtoSuffix|enableHibernateCache|enableSwaggerCodegen|enableTranslation|entitySuffix|jhiPrefix|languages|messageBroker|nativeLanguage|packageName|prodDatabaseType|reactive|searchEngine|serverPort|serviceDiscoveryType|skipClient|skipServer|skipUserManagement|testFrameworks|websocket)\\b",
+      "name": "meta.object-literal.key.jdl"
+    },
+    "use-options": {
+      "match": "\\b(mapstruct|serviceClass|serviceImpl|pagination|infinite-scroll|elasticsearch|couchbase)\\b",
+      "name": "meta.object-literal.key.jdl"
+    },
+    "entity-options": {
+      "match": "\\b(skipClient|skipServer|noFluentMethod|filter|readOnly|dto|service|paginate|search|microservice|angularSuffix|clientRootFolder)\\b",
+      "name": "meta.object-literal.key.jdl"
+    },
+    "block": {
+      "begin": "{",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.block.begin.bracket.curly.jdl"
+        }
+      },
+      "end": "}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.bracket.curly.jdl"
+        }
+      },
+      "name": "meta.structure.dictionary.jdl",
+      "patterns": [
+        { "include": "#string" },
+        { "include": "#type" },
+        { "include": "#comment-line" },
+        { "include": "#comment-bloc" },
+        { "include": "#entity" },
+        { "include": "#function" },
+        { "include": "#validator" },
+        { "include": "#constant" },
+        { "include": "#constant-numeric" },
+        { "include": "#app-options" },
+        { "include": "#entity-options" },
+        { "include": "#use-options" }
+      ]
     }
   }
 }

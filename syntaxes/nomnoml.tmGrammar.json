@@ -1,5 +1,5 @@
 {
-  "scopeName": "scope.nomnoml",
+  "scopeName": "source.nomnoml",
   "patterns": [{ "include": "#expression" }],
   "repository": {
     "expression": {
