@@ -1,8 +1,8 @@
 {
   "name": "jdl-noml-uml",
-  "displayName": "JDL_Noml_UML",
+  "displayName": "Nomnoml and JDL visualizer",
   "description": "UML visualizer for JDL and Nomnoml files.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.96.0"
   },

@@ -4,7 +4,6 @@ import { jdlToNoml } from "./JDLToNoml";
 
 export class NomnomlViewer {
   private _doc: vscode.TextDocument;
-  private _nml: string = "";
   private _txt: string = "";
 
   constructor(doc: vscode.TextDocument) {
@@ -21,19 +20,20 @@ export class NomnomlViewer {
     );
 
     const renderLoop = setInterval(() => {
-      const text = this._doc.getText();
+      let text = this._doc.getText();
       if (this._txt === text) {
         return;
       }
       this._txt = text;
-      this._nml =
-        path.extname(this._doc.fileName) === ".jdl" ? jdlToNoml(text) : text;
+      if (path.extname(this._doc.fileName) === ".jdl") {
+        text = jdlToNoml(text);
+      }
 
       const nomnoml = require("nomnoml");
       const svg = nomnoml.renderSvg(
-        !this._nml.includes("#background")
-          ? this._nml.concat("\n\n#background: lightgrey")
-          : this._nml
+        !text.includes("#background")
+          ? text.concat("\n\n#background: lightgrey")
+          : text
       );
 
       panel.webview.html = `
