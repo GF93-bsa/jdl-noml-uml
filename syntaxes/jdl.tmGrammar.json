@@ -1,59 +1,101 @@
 {
-  "name": "JDL",
+  "displayName": "JDL",
+  "name": "jdl",
   "scopeName": "source.jdl",
   "fileTypes": ["jdl"],
+
   "patterns": [
-    { "include": "#block" },
-    { "include": "#identifier" },
-    { "include": "#relationship" },
-    { "include": "#operator" },
-    { "include": "#comment-line" },
-    { "include": "#comment-bloc" },
-    { "include": "#entity" },
-    { "include": "#app-options" },
-    { "include": "#entity-options" },
+    { "include": "#identifier-blocks" },
+    { "include": "#comments" },
+    { "include": "#operators" },
+    { "include": "#entities-options" },
     { "include": "#use-options" }
   ],
+
   "repository": {
-    "identifier": {
-      "match": "\\b(entity|relationship|enum|application|config|entities)\\b",
-      "name": "keyword.control.jdl"
+    "identifier-blocks": {
+      "begin": "\\b(entity|relationship|enum|application|config|entities)\\s+([A-Z][a-zA-Z0-9]*)\\s*(\\{)",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.jdl"
+        },
+        "2": {
+          "name": "entity.name.type.jdl"
+        },
+        "3": {
+          "name": "punctuation.section.block.begin.bracket.curly.jdl"
+        }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.block.end.bracket.curly.jdl"
+        }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#types" },
+        { "include": "#relationship-definitions" },
+        { "include": "#relationship-to" },
+        { "include": "#validators" }
+      ]
     },
-    "relationship": {
-      "match": "\\b(OneToOne|OneToMany|ManyToOne|ManyToMany)\\b",
-      "name": "keyword.relationship.jdl"
+
+    "validators": {
+      "patterns": [
+        {
+          "match": "\\b(required|unique)\\b",
+          "name": "entity.name.function.jdl"
+        },
+        {
+          "begin": "\\b(min|max|minlength|maxlength|pattern)\\s*(\\()",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.function.jdl"
+            },
+            "2": {
+              "name": "punctuation.section.block.begin.bracket.round.jdl"
+            }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.block.end.bracket.round.jdl"
+            }
+          },
+          "patterns": [{ "include": "#numbers" }]
+        }
+      ]
     },
-    "type": {
-      "match": "\\b(String|Integer|Long|BigDecimal|Float|Double|Enum|Boolean|LocalDate|ZonedDateTime|Instant|Duration|LocalTime|UUID|Blob|AnyBlob|ImageBlob|TextBlob)\\b",
-      "name": "storage.type.jdl"
+
+    "relationship-definitions": {
+      "patterns": [
+        {
+          "match": "\\b[A-Z][A-Za-z-1-9_]*\\b(?!\\s*\\{)",
+          "name": "entity.name.type.jdl"
+        },
+        {
+          "begin": "\\b([A-Z][A-Za-z0-9_]*)\\s*(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.type.jdl"
+            },
+            "2": {
+              "name": "punctuation.section.block.begin.bracket.curly.jdl"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.block.end.bracket.curly.jdl"
+            }
+          },
+          "patterns": [{ "include": "#numbers" }]
+        }
+      ]
     },
-    "entity": {
-      "match": "\\b([A-Z][a-zA-Z0-9_]*[a-z0-9_]+)\\b",
-      "name": "entity.name.type.jdl"
-    },
-    "operator": {
-      "match": "\\b(use|for|to|with|except|\\*)\\b",
-      "name": "keyword.reserved.jdl"
-    },
-    "function": {
-      "match": "\\b(min|max|minlength|maxlength|pattern)\\s*(?=\\()",
-      "name": "entity.name.function.jdl"
-    },
-    "validator": {
-      "match": "\\brequired",
-      "name": "entity.name.function.jdl"
-    },
-    "comment-line": {
-      "begin": "//",
-      "end": "$",
-      "name": "comment.line.jdl"
-    },
-    "comment-bloc": {
-      "begin": "/\\*",
-      "end": "\\*/",
-      "name": "comment.block.jdl"
-    },
-    "string": {
+
+    "strings": {
       "patterns": [
         {
           "begin": "\"",
@@ -99,54 +141,65 @@
         }
       ]
     },
-    "constant": {
-      "match": "\\b(true|false|null)\\b",
-      "name": "constant.language.jdl"
+
+    "comments": {
+      "patterns": [
+        {
+          "begin": "//",
+          "end": "$",
+          "name": "comment.line.jdl"
+        },
+        {
+          "begin": "/\\*",
+          "end": "\\*/",
+          "name": "comment.block.jdl"
+        }
+      ]
     },
-    "constant-numeric": {
+
+    "relationships": {
+      "match": "\\b(OneToOne|OneToMany|ManyToOne|ManyToMany)\\b",
+      "name": "keyword.relationship.jdl"
+    },
+
+    "relationship-to": {
+      "match": "\\bto\\b",
+      "name": "keyword.control.to.jdl"
+    },
+
+    "types": {
+      "match": "\\b(String|Integer|Long|BigDecimal|Float|Double|Enum|Boolean|LocalDate|ZonedDateTime|Instant|Duration|LocalTime|UUID|Blob|AnyBlob|ImageBlob|TextBlob)\\b",
+      "name": "storage.type.jdl"
+    },
+
+    "entities": {
+      "match": "\\b([A-Z][a-zA-Z0-9_]*[a-z0-9_]+)\\b",
+      "name": "entity.name.type.jdl"
+    },
+
+    "operators": {
+      "match": "\\b(use|for|with|except|all)\\b",
+      "name": "keyword.reserved.jdl"
+    },
+
+    "numbers": {
       "match": "-?\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b",
       "name": "constant.numeric.jdl"
     },
+
     "app-options": {
       "match": "\\b(applicationType|authenticationType|baseName|blueprints|buildTool|cacheProvider|clientFramework|clientPackageManager|clientTheme|clientThemeVariant|databaseType|devDatabaseType|dtoSuffix|enableHibernateCache|enableSwaggerCodegen|enableTranslation|entitySuffix|jhiPrefix|languages|messageBroker|nativeLanguage|packageName|prodDatabaseType|reactive|searchEngine|serverPort|serviceDiscoveryType|skipClient|skipServer|skipUserManagement|testFrameworks|websocket)\\b",
       "name": "meta.object-literal.key.jdl"
     },
+
     "use-options": {
       "match": "\\b(mapstruct|serviceClass|serviceImpl|pagination|infinite-scroll|elasticsearch|couchbase)\\b",
       "name": "meta.object-literal.key.jdl"
     },
-    "entity-options": {
+
+    "entities-options": {
       "match": "\\b(skipClient|skipServer|noFluentMethod|filter|readOnly|dto|service|paginate|search|microservice|angularSuffix|clientRootFolder)\\b",
       "name": "meta.object-literal.key.jdl"
-    },
-    "block": {
-      "begin": "{",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.section.block.begin.bracket.curly.jdl"
-        }
-      },
-      "end": "}",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.section.block.end.bracket.curly.jdl"
-        }
-      },
-      "name": "meta.structure.dictionary.jdl",
-      "patterns": [
-        { "include": "#string" },
-        { "include": "#type" },
-        { "include": "#comment-line" },
-        { "include": "#comment-bloc" },
-        { "include": "#entity" },
-        { "include": "#function" },
-        { "include": "#validator" },
-        { "include": "#constant" },
-        { "include": "#constant-numeric" },
-        { "include": "#app-options" },
-        { "include": "#entity-options" },
-        { "include": "#use-options" }
-      ]
     }
   }
 }

@@ -6,18 +6,25 @@ import { NomnomlViewer } from "./Nomnoml";
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "jdl-noml-uml" is now active!');
-
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
   const disposable = vscode.commands.registerCommand(
     "jdl-noml-uml.render",
     () => {
-      if (vscode.window.activeTextEditor) {
-        new NomnomlViewer(vscode.window.activeTextEditor.document);
+      const activeTextEditor = vscode.window.activeTextEditor;
+      if (activeTextEditor) {
+        const document = activeTextEditor.document;
+        if (
+          document.languageId === "jdl" ||
+          document.languageId === "nomnoml"
+        ) {
+          new NomnomlViewer(activeTextEditor.document);
+        } else {
+          vscode.window.showErrorMessage(
+            "Neither a JDL file nor a Nomnoml file!"
+          );
+        }
       } else {
         vscode.window.showErrorMessage("No file open!");
       }

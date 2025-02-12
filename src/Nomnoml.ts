@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import * as path from "path";
 import { jdlToNoml } from "./JDLToNoml";
 
 export class NomnomlViewer {
@@ -25,7 +24,7 @@ export class NomnomlViewer {
         return;
       }
       this._txt = text;
-      if (path.extname(this._doc.fileName) === ".jdl") {
+      if (this._doc.languageId === "jdl") {
         text = jdlToNoml(text);
       }
 

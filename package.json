@@ -2,6 +2,7 @@
   "name": "jdl-noml-uml",
   "displayName": "Nomnoml and JDL visualizer",
   "description": "UML visualizer for JDL and Nomnoml files.",
+  "icon": "jdl-noml-uml.png",
   "version": "1.0.1",
   "engines": {
     "vscode": "^1.96.0"
@@ -37,7 +38,11 @@
         "extensions": [
           ".jdl"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configurations/jdl.json",
+        "icon": {
+          "light": "./icons/jdl.png",
+          "dark": "./icons/jdl.png"
+        }
       },
       {
         "id": "nomnoml",
@@ -48,7 +53,11 @@
           ".nomnoml",
           ".noml"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configurations/nomnoml.json",
+        "icon": {
+          "light": "./icons/nomnoml.png",
+          "dark": "./icons/nomnoml.png"
+        }
       }
     ],
     "grammars": [
